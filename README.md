@@ -13,7 +13,7 @@ make composer-install
 ````
 Run tests:
 ````
-make tests
+make test
 ````
 Run PhpStan:
 ````

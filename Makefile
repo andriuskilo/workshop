@@ -11,7 +11,7 @@ down:
 composer-install:
 	$(CONTAINER) composer install
 
-tests:
+test:
 	$(CONTAINER) composer tests
 
 phpstan:
