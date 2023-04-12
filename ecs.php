@@ -18,7 +18,7 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     $ecsConfig->skip([
-        // skip specific rules
+        // rules to skip
     ]);
 
     // run and fix, one by one

@@ -14,5 +14,14 @@ composer-install:
 test:
 	$(CONTAINER) composer tests
 
+check-cs:
+	$(CONTAINER) composer check-cs
+
+fix-cs:
+	$(CONTAINER) composer fix-cs
+
 phpstan:
 	$(CONTAINER) composer phpstan
+
+fixture:
+	$(CONTAINER) php ./fixtures/texttest_fixture.php $(count)
