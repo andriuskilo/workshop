@@ -14,7 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "TennisGame\\": "src/"
+      "App\\": "src/"
     }
   },
   "autoload-dev": {
