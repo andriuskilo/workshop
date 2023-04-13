@@ -116,21 +116,21 @@ class GildedRoseTest extends TestCase
                 10,
                 2,
                 9,
-                4
+                4,
             ],
             [
                 new Item('Backstage passes to a TAFKAL80ETC concert', 6, 1),
                 5,
                 3,
                 4,
-                6
+                6,
             ],
             [
                 new Item('Backstage passes to a TAFKAL80ETC concert', 1, 1),
                 0,
                 4,
                 -1,
-                0
+                0,
             ],
         ];
     }

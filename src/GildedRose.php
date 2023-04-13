@@ -23,8 +23,7 @@ final class GildedRose
 
     public function addStrategies(
         ItemStrategy ...$itemsStrategies
-    ): self
-    {
+    ): self {
         $this->itemStrategies = $itemsStrategies;
 
         return $this;

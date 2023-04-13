@@ -15,7 +15,7 @@ class ConjuredItemStrategy implements ItemStrategy
 
     public function updateItem(Item $item): void
     {
-        $item->sellIn -= 1;
+        --$item->sellIn;
 
         $qualityDrop = 2;
         if ($item->sellIn < 0) {
