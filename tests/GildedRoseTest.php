@@ -21,8 +21,7 @@ class GildedRoseTest extends TestCase
         int $expectedSellIn,
         int $expectedQuality,
         ?string $expectedName = null,
-    ): void
-    {
+    ): void {
         if (null === $expectedName) {
             $expectedName = $name;
         }
@@ -226,6 +225,83 @@ class GildedRoseTest extends TestCase
                 'sellIn' => -1,
                 'quality' => -1,
                 'expectedSellIn' => -2,
+                'expectedQuality' => -1,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider conjuredProvider
+     */
+    public function testUpdateQualityConjured(
+        string $name,
+        int $sellIn,
+        int $quality,
+        int $expectedSellIn,
+        int $expectedQuality,
+        ?string $expectedName = null,
+    ): void {
+        if (null === $expectedName) {
+            $expectedName = $name;
+        }
+        $items = [new Item($name, $sellIn, $quality)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertSame($expectedName, $items[0]->name);
+        $this->assertSame($expectedSellIn, $items[0]->sellIn);
+        $this->assertSame($expectedQuality, $items[0]->quality);
+    }
+
+    private function conjuredProvider(): array
+    {
+        return [
+            'conj zero' => [
+                'name' => 'Conjured Mana Cake',
+                'sellIn' => 0,
+                'quality' => 0,
+                'expectedSellIn' => -1,
+                'expectedQuality' => 0,
+            ],
+            'conj q > 50' => [
+                'name' => 'Conjured Mana Cake',
+                'sellIn' => 0,
+                'quality' => 51,
+                'expectedSellIn' => -1,
+                'expectedQuality' => 47,
+            ],
+            'conj q < 50' => [
+                'name' => 'Conjured Mana Cake',
+                'sellIn' => 0,
+                'quality' => 49,
+                'expectedSellIn' => -1,
+                'expectedQuality' => 45,
+            ],
+            'conj q < 0' => [
+                'name' => 'Conjured Mana Cake',
+                'sellIn' => 0,
+                'quality' => -1,
+                'expectedSellIn' => -1,
+                'expectedQuality' => -1,
+            ],
+            'conj q < 0 s < 0' => [
+                'name' => 'Conjured Mana Cake',
+                'sellIn' => -1,
+                'quality' => -1,
+                'expectedSellIn' => -2,
+                'expectedQuality' => -1,
+            ],
+            'conj q > 0 s < 0' => [
+                'name' => 'Conjured Mana Cake',
+                'sellIn' => -1,
+                'quality' => 1,
+                'expectedSellIn' => -2,
+                'expectedQuality' => -1,
+            ],
+            'conj q > 0 s > 0' => [
+                'name' => 'Conjured Mana Cake',
+                'sellIn' => 1,
+                'quality' => 1,
+                'expectedSellIn' => 0,
                 'expectedQuality' => -1,
             ],
         ];

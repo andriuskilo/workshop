@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GildedRose;
 
 use GildedRose\Resolvers\AgedBrieResolver;
-use GildedRose\Resolvers\DefaultResolver;
+use GildedRose\Resolvers\ConjuredResolver;
 use GildedRose\Resolvers\ResolveManager;
 use GildedRose\Resolvers\SulfurasResolver;
 use GildedRose\Resolvers\TafkaResolver;
@@ -25,7 +25,7 @@ final class GildedRose
             new AgedBrieResolver(),
             new SulfurasResolver(),
             new TafkaResolver(),
-            new DefaultResolver(),
+            new ConjuredResolver(),
         ]);
     }
 
