@@ -15,7 +15,6 @@ class ItemStrategy
 {
     public function createHandler(string $name): ItemHandlerInterface
     {
-        return new NormalItemHandler();
         return match ($name) {
             'Aged Brie' => new AgedBrieHandler(),
             'Sulfuras, Hand of Ragnaros' => new SulfurasHandler(),
