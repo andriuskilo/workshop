@@ -6,6 +6,7 @@ namespace Tests;
 
 use GildedRose\GildedRose;
 use GildedRose\Item;
+use GildedRose\ItemStrategy\ConjuredItemStrategy;
 use PHPUnit\Framework\TestCase;
 
 class GildedRoseTest extends TestCase
@@ -97,17 +98,6 @@ class GildedRoseTest extends TestCase
         $this->assertSame($expectedQualityAfterSecondDay, $items[0]->quality);
     }
 
-    /**
-     * @param Item[] $items
-     */
-    public function getSut(array $items): GildedRose
-    {
-        return new GildedRose($items);
-    }
-
-    /**
-     * @return Item[]
-     */
     public function dataProviderForBackstagePasses(): array
     {
         return [
@@ -133,5 +123,59 @@ class GildedRoseTest extends TestCase
                 0,
             ],
         ];
+    }
+
+    /**
+     * @dataProvider dataProviderForConjuredItems
+     */
+    public function testQualityOfConjuredItemsDecreasesTwiceAsFast(
+        Item $item,
+        int $expectedSellInAfterFirstDay,
+        int $expectedQualityAfterFirstDay,
+        int $expectedSellInAfterSecondDay,
+        int $expectedQualityAfterSecondDay
+    ): void {
+        $items = [$item];
+        $gildedRose = $this->getSut($items);
+        $gildedRose->updateQuality();
+        $this->assertStringContainsString('Conjured', $items[0]->name);
+        $this->assertSame($expectedSellInAfterFirstDay, $items[0]->sellIn);
+        $this->assertSame($expectedQualityAfterFirstDay, $items[0]->quality);
+        $gildedRose->updateQuality();
+        $this->assertSame($expectedSellInAfterSecondDay, $items[0]->sellIn);
+        $this->assertSame($expectedQualityAfterSecondDay, $items[0]->quality);
+    }
+
+    public function dataProviderForConjuredItems(): array
+    {
+        return [
+            [
+                new Item('Conjured staff', 11, 9),
+                10,
+                7,
+                9,
+                5,
+            ],
+            [
+                new Item('Conjured sword', 6, 3),
+                5,
+                1,
+                4,
+                0,
+            ],
+        ];
+    }
+
+    /**
+     * @param Item[] $items
+     */
+    public function getSut(array $items): GildedRose
+    {
+        $gildedRose = new GildedRose($items);
+        $gildedRose->addStrategies(
+            new ConjuredItemStrategy(),
+        );
+
+        return $gildedRose;
     }
 }
