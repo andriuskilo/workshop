@@ -8,21 +8,24 @@ use GildedRose\Item;
 
 class QualityProcessor
 {
+    private const MAX_QUALITY = 50;
+    private const MIN_QUALITY = 0;
+
     public function increaseQuality(Item $item): void
     {
-        if ($item->quality < 50) {
+        if ($item->quality < self::MAX_QUALITY) {
             ++$item->quality;
         }
     }
 
     public function decreaseQuality(Item $item, int $by = 1): void
     {
-        if ($item->quality > 0) {
+        if ($item->quality > self::MIN_QUALITY) {
             $item->quality -= $by;
         }
 
-        if ($item->quality < 0) {
-            $item->quality = 0;
+        if ($item->quality < self::MIN_QUALITY) {
+            $item->quality = self::MIN_QUALITY;
         }
     }
 }
