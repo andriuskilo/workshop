@@ -98,4 +98,22 @@ class GildedRoseTest extends TestCase
         $gildedRose->updateQuality();
         $this->assertSame(23, $items[0]->quality);
     }
+
+    public function testConjuredDegradeTwiceAsFastInQuality(): void
+    {
+        // - "Conjured" items degrade in Quality twice as fast as normal items
+        $items = [new Item(GildedRose::CONJURED, 5, 20)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertSame(18, $items[0]->quality);
+    }
+
+    public function testConjuredDegradeTwiceAsFastAfterExpiredInQuality(): void
+    {
+        // - "Conjured" items degrade in Quality twice as fast as normal items
+        $items = [new Item(GildedRose::CONJURED, -1, 20)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertSame(16, $items[0]->quality);
+    }
 }

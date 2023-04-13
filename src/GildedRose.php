@@ -10,7 +10,7 @@ final class GildedRose
     const AGED_BRIE = 'Aged Brie';
     const BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert';
     const SULFURAS = 'Sulfuras, Hand of Ragnaros';
-
+    const CONJURED = 'Conjured';
     /**
      * @param Item[] $items
      */
@@ -26,6 +26,7 @@ final class GildedRose
                 self::SULFURAS => null,
                 self::AGED_BRIE => $this->updateAgedBrieQuality($item),
                 self::BACKSTAGE_PASSES => $this->updateBackstagePassesQuality($item),
+                self::CONJURED => $this->updateConjuredQuality($item),
                 default => $this->updateDefaultQuality($item),
             };
         }
@@ -33,10 +34,9 @@ final class GildedRose
 
     private function updateAgedBrieQuality(Item $item): void
     {
-        $item->quality++;
-
         $item->sellIn--;
 
+        $item->quality++;
         if ($item->sellIn < 0) {
             $item->quality++;
         }
@@ -47,7 +47,6 @@ final class GildedRose
     private function updateBackstagePassesQuality(Item $item): void
     {
         $item->quality++;
-
         if ($item->sellIn < 11) {
             $item->quality++;
         }
@@ -57,7 +56,6 @@ final class GildedRose
         $item->quality = min(50, $item->quality);
 
         $item->sellIn--;
-
         if ($item->sellIn < 0) {
             $item->quality = 0;
         }
@@ -73,6 +71,19 @@ final class GildedRose
 
         if ($item->sellIn < 0 && $item->quality > 0) {
             $item->quality--;
+        }
+    }
+
+    private function updateConjuredQuality(Item $item): void
+    {
+        if ($item->quality > 0) {
+            $item->quality = $item->quality - 2;
+        }
+
+        $item->sellIn--;
+
+        if ($item->sellIn < 0 && $item->quality > 0) {
+            $item->quality = $item->quality - 2;
         }
     }
 }
