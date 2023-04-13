@@ -19,22 +19,31 @@ $items = [
     new Item('Backstage passes to a TAFKAL80ETC concert', 10, 49),
     new Item('Backstage passes to a TAFKAL80ETC concert', 5, 49),
     // this conjured item does not work properly yet
-    new Item('Conjured Mana Cake', 3, 6),
+//    new Item('Conjured Mana Cake', 3, 6),
 ];
 
 $app = new GildedRose($items);
 
-$days = 2;
+$days = 30;
 if ((is_countable($argv) ? count($argv) : 0) > 1) {
     $days = (int) $argv[1];
 }
 
 for ($i = 0; $i < $days; $i++) {
-    echo "-------- day ${i} --------" . PHP_EOL;
-    echo 'name, sellIn, quality' . PHP_EOL;
+//    echo "-------- day ${i} --------" . PHP_EOL;
+//    echo 'name, sellIn, quality' . PHP_EOL;
+    echo "yield [" . PHP_EOL;
+    echo "'days' => {$i}," . PHP_EOL;
+    echo "'expected' => [" . PHP_EOL;
+
+    /** @var Item $item */
     foreach ($items as $item) {
-        echo $item . PHP_EOL;
+        echo "new Item('{$item->name}', {$item->sellIn}, {$item->quality})," . PHP_EOL;
+//        echo $item . PHP_EOL;
     }
+    echo "]," . PHP_EOL;
+    echo "];" . PHP_EOL;
+
     echo PHP_EOL;
     $app->updateQuality();
 }
