@@ -6,6 +6,11 @@ namespace GildedRose;
 
 final class GildedRose
 {
+
+    const AGED_BRIE = 'Aged Brie';
+    const BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert';
+    const SULFURAS = 'Sulfuras, Hand of Ragnaros';
+
     /**
      * @param Item[] $items
      */
@@ -17,10 +22,10 @@ final class GildedRose
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
-            if ($item->name == 'Aged Brie' || $item->name == 'Backstage passes to a TAFKAL80ETC concert') {
+            if ($item->name == self::AGED_BRIE || $item->name == self::BACKSTAGE_PASSES) {
 
                 $item->quality++;
-                if ($item->name == 'Backstage passes to a TAFKAL80ETC concert') {
+                if ($item->name == self::BACKSTAGE_PASSES) {
                     if ($item->sellIn < 11) {
                         $item->quality++;
                     }
@@ -31,22 +36,22 @@ final class GildedRose
 
                 $item->quality = min(50, $item->quality);
 
-            } elseif ($item->quality > 0 && $item->name != 'Sulfuras, Hand of Ragnaros') {
+            } elseif ($item->quality > 0 && $item->name != self::SULFURAS) {
                 $item->quality--;
             }
 
-            if ($item->name != 'Sulfuras, Hand of Ragnaros') {
+            if ($item->name != self::SULFURAS) {
                 $item->sellIn--;
             }
 
             if ($item->sellIn < 0) {
-                if ($item->name == 'Aged Brie') {
+                if ($item->name == self::AGED_BRIE) {
                     if ($item->quality < 50) {
                         $item->quality++;
                     }
-                } elseif ($item->name == 'Backstage passes to a TAFKAL80ETC concert') {
+                } elseif ($item->name == self::BACKSTAGE_PASSES) {
                     $item->quality = 0;
-                } elseif ($item->quality > 0 && $item->name != 'Sulfuras, Hand of Ragnaros') {
+                } elseif ($item->quality > 0 && $item->name != self::SULFURAS) {
                     $item->quality--;
                 }
             }
