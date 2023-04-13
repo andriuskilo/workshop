@@ -36,15 +36,7 @@ final class GildedRose
                 continue;
             }
 
-            if ($item->quality > 0) {
-                $item->quality--;
-            }
-
-            $item->sellIn--;
-
-            if ($item->sellIn < 0 && $item->quality > 0) {
-                $item->quality--;
-            }
+            $this->updateDefaultQuality($item);
         }
     }
 
@@ -77,6 +69,19 @@ final class GildedRose
 
         if ($item->sellIn < 0) {
             $item->quality = 0;
+        }
+    }
+
+    private function updateDefaultQuality(Item $item): void
+    {
+        if ($item->quality > 0) {
+            $item->quality--;
+        }
+
+        $item->sellIn--;
+
+        if ($item->sellIn < 0 && $item->quality > 0) {
+            $item->quality--;
         }
     }
 }
