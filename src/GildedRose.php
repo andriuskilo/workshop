@@ -16,7 +16,7 @@ final class GildedRose
             'increase' => [
                 'quality' => [
                     [
-                        ['by' => 1], // 61
+                        ['by' => 1, 'minSellIn' => -1], // 61
                     ],
                 ],
             ],
@@ -54,27 +54,30 @@ final class GildedRose
 
         ],
         'default' => [
+            'quality' = [
+                ['by' => -1], // 23
+                ['by' => -1, 'minSellIn' => -1], // 53
+                ['by' => 1],
+            ],
+            'sellIn' => [ // 45
+                'by' => -1,
+            ],
             'decrease' => [
                 'quality' => [
                     [
-                        ['by' => 1], // 23
-                        ['by' => 1, 'minSellIn' => -1], // 53
+
                     ]
                 ],
-                'sellIn' => [ // 45
-                    'by' => 1,
-                ],
+
             ],
             'increase' => [
                 'quality' => [
                     [
-                        'by' => 1,
+
                     ],
                 ],
                 'sellIn' => [
-                    'min' => 0,
-                    'max' => 0,
-                    'by' => 1,
+                    ['by' => 1],
                 ],
             ],
         ],
