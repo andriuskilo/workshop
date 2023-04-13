@@ -7,6 +7,7 @@ namespace Tests;
 use GildedRose\GildedRose;
 use GildedRose\Item;
 use GildedRose\ItemStrategy\AgedBrieItemStrategy;
+use GildedRose\ItemStrategy\BackstagePassesItemStrategy;
 use GildedRose\ItemStrategy\ConjuredItemStrategy;
 use GildedRose\ItemStrategy\LegendaryItemStrategy;
 use PHPUnit\Framework\TestCase;
@@ -176,6 +177,7 @@ class GildedRoseTest extends TestCase
         $gildedRose = new GildedRose($items);
         $gildedRose->addStrategies(
             new AgedBrieItemStrategy(),
+            new BackstagePassesItemStrategy(),
             new ConjuredItemStrategy(),
             new LegendaryItemStrategy(),
         );
