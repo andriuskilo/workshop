@@ -8,6 +8,7 @@ use GildedRose\GildedRose;
 use GildedRose\Item;
 use GildedRose\ItemStrategy\AgedBrieItemStrategy;
 use GildedRose\ItemStrategy\ConjuredItemStrategy;
+use GildedRose\ItemStrategy\LegendaryItemStrategy;
 use PHPUnit\Framework\TestCase;
 
 class GildedRoseTest extends TestCase
@@ -176,6 +177,7 @@ class GildedRoseTest extends TestCase
         $gildedRose->addStrategies(
             new AgedBrieItemStrategy(),
             new ConjuredItemStrategy(),
+            new LegendaryItemStrategy(),
         );
 
         return $gildedRose;
