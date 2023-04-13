@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use GildedRose\GildedRose;
+use GildedRose\GildedRoseGPT;
 use GildedRose\Item;
 use PHPUnit\Framework\TestCase;
 
-class GildedRoseTest extends TestCase
+class GildedRoseGPTTest extends TestCase
 {
     public function testSuccessDenoteBothSellInAndQuality(): void
     {
         $items = [new Item('foo', 5, 10)];
-        $gildedRose = new GildedRose($items);
-        $gildedRose->updateQuality();
+        $this->buildGildedRose($items)->updateQuality();
         $this->assertSame('foo', $items[0]->name);
         $this->assertSame(4, $items[0]->sellIn);
         $this->assertSame(9, $items[0]->quality);
@@ -23,8 +22,7 @@ class GildedRoseTest extends TestCase
     public function testQualityGoesNegativeAndDoubleDecreaseQuality(): void
     {
         $items = [new Item('foo', 0, 10)];
-        $gildedRose = new GildedRose($items);
-        $gildedRose->updateQuality();
+        $this->buildGildedRose($items)->updateQuality();
         $this->assertSame('foo', $items[0]->name);
         $this->assertSame(-1, $items[0]->sellIn);
         $this->assertSame(8, $items[0]->quality);
@@ -33,8 +31,7 @@ class GildedRoseTest extends TestCase
     public function testQualityDoesntGoNegative(): void
     {
         $items = [new Item('foo', 0, 0)];
-        $gildedRose = new GildedRose($items);
-        $gildedRose->updateQuality();
+        $this->buildGildedRose($items)->updateQuality();
         $this->assertSame('foo', $items[0]->name);
         $this->assertSame(-1, $items[0]->sellIn);
         $this->assertSame(0, $items[0]->quality);
@@ -147,8 +144,8 @@ class GildedRoseTest extends TestCase
     /**
      * @param Item[] $items
      */
-    private function buildGildedRose(array $items): GildedRose
+    private function buildGildedRose(array $items): GildedRoseGPT
     {
-        return new GildedRose($items);
+        return new GildedRoseGPT($items);
     }
 }

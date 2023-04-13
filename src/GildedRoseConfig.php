@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GildedRose;
 
-final class GildedRose
+final class GildedRoseConfig
 {
     public const AGED_BRIE = 'Aged Brie';
     public const BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert';
@@ -16,7 +16,7 @@ final class GildedRose
             'increase' => [
                 'quality' => [
                     [
-                        ['by' => 1, 'minSellIn' => -1], // 61
+                        ['by' => 1],
                     ],
                 ],
             ],
@@ -54,30 +54,27 @@ final class GildedRose
 
         ],
         'default' => [
-            'quality' = [
-                ['by' => -1], // 23
-                ['by' => -1, 'minSellIn' => -1], // 53
-                ['by' => 1],
-            ],
-            'sellIn' => [ // 45
-                'by' => -1,
-            ],
             'decrease' => [
                 'quality' => [
                     [
-
+                        ['by' => 1], // 23
+                        ['by' => 1, 'minSellIn' => -1], // 53
                     ]
                 ],
-
+                'sellIn' => [ // 45
+                    'by' => 1,
+                ],
             ],
             'increase' => [
                 'quality' => [
                     [
-
+                        'by' => 1,
                     ],
                 ],
                 'sellIn' => [
-                    ['by' => 1],
+                    'min' => 0,
+                    'max' => 0,
+                    'by' => 1,
                 ],
             ],
         ],
