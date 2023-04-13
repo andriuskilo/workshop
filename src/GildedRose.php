@@ -4,62 +4,53 @@ declare(strict_types=1);
 
 namespace GildedRose;
 
+use GildedRose\Handler\AgedBrieHandler;
+use GildedRose\Handler\BackstageHandler;
+use GildedRose\Handler\Handler1;
+use GildedRose\Handler\Handler2;
+use GildedRose\Handler\Handler3;
+use GildedRose\Handler\DecreaseSellInNotForSulfurasHandler;
+use GildedRose\Handler\Handler5;
+use GildedRose\Handler\Handler6;
+use GildedRose\Handler\Handler7;
+use GildedRose\Handler\Handler8;
+use GildedRose\Handler\SulfurasHandler;
+use GildedRose\Handler\ItemHandlerInterface;
+
 final class GildedRose
 {
+    /**
+     * @var ItemHandlerInterface[]
+     */
+    private array $handlers = [];
+
     /**
      * @param Item[] $items
      */
     public function __construct(
         private array $items
     ) {
+        $this->handlers = [
+            new Handler1(),
+            new Handler2(),
+            new Handler3(),
+            new DecreaseSellInNotForSulfurasHandler(),
+            new Handler5(),
+            new Handler7(),
+            new Handler8(),
+            new Handler6(),
+            new AgedBrieHandler(),
+            new SulfurasHandler(),
+            new BackstageHandler(),
+        ];
     }
 
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
-            if ($item->name != 'Aged Brie' and $item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                if ($item->quality > 0) {
-                    if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                        $item->quality = $item->quality - 1;
-                    }
-                }
-            } else {
-                if ($item->quality < 50) {
-                    $item->quality = $item->quality + 1;
-                    if ($item->name == 'Backstage passes to a TAFKAL80ETC concert') {
-                        if ($item->sellIn < 11) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                        if ($item->sellIn < 6) {
-                            if ($item->quality < 50) {
-                                $item->quality = $item->quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                $item->sellIn = $item->sellIn - 1;
-            }
-
-            if ($item->sellIn < 0) {
-                if ($item->name != 'Aged Brie') {
-                    if ($item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                        if ($item->quality > 0) {
-                            if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                                $item->quality = $item->quality - 1;
-                            }
-                        }
-                    } else {
-                        $item->quality = $item->quality - $item->quality;
-                    }
-                } else {
-                    if ($item->quality < 50) {
-                        $item->quality = $item->quality + 1;
-                    }
+            foreach ($this->handlers as $handler) {
+                if ($handler->supports($item)) {
+                    $handler->handle($item);
                 }
             }
         }
