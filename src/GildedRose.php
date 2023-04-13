@@ -22,21 +22,12 @@ final class GildedRose
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
-            if ($item->name == self::SULFURAS) {
-                continue;
-            }
-
-            if ($item->name == self::AGED_BRIE) {
-                $this->updateAgedBrieQuality($item);
-                continue;
-            }
-
-            if ($item->name == self::BACKSTAGE_PASSES) {
-                $this->updateBackstagePassesQuality($item);
-                continue;
-            }
-
-            $this->updateDefaultQuality($item);
+            match($item->name) {
+                self::SULFURAS => null,
+                self::AGED_BRIE => $this->updateAgedBrieQuality($item),
+                self::BACKSTAGE_PASSES => $this->updateBackstagePassesQuality($item),
+                default => $this->updateDefaultQuality($item),
+            };
         }
     }
 
