@@ -22,6 +22,10 @@ final class GildedRose
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
+            if ($item->name == self::SULFURAS) {
+                continue;
+            }
+
             if ($item->name == self::AGED_BRIE || $item->name == self::BACKSTAGE_PASSES) {
 
                 $item->quality++;
@@ -36,13 +40,11 @@ final class GildedRose
 
                 $item->quality = min(50, $item->quality);
 
-            } elseif ($item->quality > 0 && $item->name != self::SULFURAS) {
+            } elseif ($item->quality > 0) {
                 $item->quality--;
             }
 
-            if ($item->name != self::SULFURAS) {
-                $item->sellIn--;
-            }
+            $item->sellIn--;
 
             if ($item->sellIn < 0) {
                 if ($item->name == self::AGED_BRIE) {
@@ -51,7 +53,7 @@ final class GildedRose
                     }
                 } elseif ($item->name == self::BACKSTAGE_PASSES) {
                     $item->quality = 0;
-                } elseif ($item->quality > 0 && $item->name != self::SULFURAS) {
+                } elseif ($item->quality > 0) {
                     $item->quality--;
                 }
             }
