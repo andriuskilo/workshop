@@ -6,6 +6,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use GildedRose\GildedRose;
 use GildedRose\Item;
+use GildedRose\ItemStrategy\AgedBrieItemStrategy;
+use GildedRose\ItemStrategy\BackstagePassesItemStrategy;
+use GildedRose\ItemStrategy\ConjuredItemStrategy;
+use GildedRose\ItemStrategy\DefaultStrategy;
+use GildedRose\ItemStrategy\LegendaryItemStrategy;
 
 echo 'OMGHAI!' . PHP_EOL;
 
@@ -22,7 +27,13 @@ $items = [
     new Item('Conjured Mana Cake', 3, 6),
 ];
 
-$app = new GildedRose($items);
+$app = new GildedRose($items, new DefaultStrategy());
+$app->addStrategies(
+    new AgedBrieItemStrategy(),
+    new BackstagePassesItemStrategy(),
+    new ConjuredItemStrategy(),
+    new LegendaryItemStrategy(),
+);
 
 $days = 2;
 if ((is_countable($argv) ? count($argv) : 0) > 1) {
@@ -30,7 +41,7 @@ if ((is_countable($argv) ? count($argv) : 0) > 1) {
 }
 
 for ($i = 0; $i < $days; $i++) {
-    echo "-------- day ${i} --------" . PHP_EOL;
+    echo '-------- day '.$i.' --------' . PHP_EOL;
     echo 'name, sellIn, quality' . PHP_EOL;
     foreach ($items as $item) {
         echo $item . PHP_EOL;
