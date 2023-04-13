@@ -17,4 +17,40 @@ final class Item implements \Stringable
     {
         return (string) "{$this->name}, {$this->sellIn}, {$this->quality}";
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSellIn(): int
+    {
+        return $this->sellIn;
+    }
+
+    public function setSellIn(int $sellIn): self
+    {
+        $this->sellIn = $sellIn;
+
+        return $this;
+    }
+
+    public function getQuality(): int
+    {
+        return $this->quality;
+    }
+
+    public function setQuality(int $quality): self
+    {
+        $this->quality = $quality;
+
+        return $this;
+    }
 }
