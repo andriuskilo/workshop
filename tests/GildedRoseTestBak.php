@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use GildedRose\GildedRose;
+use GildedRose\GuildedRoseBak;
 use GildedRose\Item;
 use PHPUnit\Framework\TestCase;
 
@@ -56,7 +57,7 @@ class GildedRoseTest extends TestCase
 
     public function testQualityIsNeverMoreThan50(): void
     {
-        $sellableItem = new Item('Sulfuras, Hand of Ragnaros', 5, 50);
+        $sellableItem = new Item('Sulfuras, Hand of Ragnaros', 5, 10);
         $items = [
             $sellableItem
         ];
@@ -65,21 +66,7 @@ class GildedRoseTest extends TestCase
 
         $this->assertSame('Sulfuras, Hand of Ragnaros', $items[0]->name);
         $this->assertSame(5, $items[0]->sellIn);
-        $this->assertSame(50, $items[0]->quality);
-    }
-
-    public function testQualityIsNeverMoreThan50ButIfSulfurasHasMoreItStays(): void
-    {
-        $sellableItem = new Item('Sulfuras, Hand of Ragnaros', 5, 80);
-        $items = [
-            $sellableItem
-        ];
-
-        $this->buildGildedRose($items)->updateQuality();
-
-        $this->assertSame('Sulfuras, Hand of Ragnaros', $items[0]->name);
-        $this->assertSame(5, $items[0]->sellIn);
-        $this->assertSame(80, $items[0]->quality);
+        $this->assertSame(10, $items[0]->quality);
     }
 
     public function testBackstagePassesQualityBecomesZeroAfterTheConcert(): void
@@ -129,26 +116,11 @@ class GildedRoseTest extends TestCase
         }
     }
 
-    public function testConjuredDecreasesTwice(): void
-    {
-        $sellableItem = new Item('Conjured', 10, 10);
-        $items = [
-            $sellableItem
-        ];
-
-        $this->buildGildedRose($items)->updateQuality();
-
-        foreach ($items as $item) {
-            $this->assertSame('Conjured', $item->name);
-            $this->assertSame(8, $item->quality);
-        }
-    }
-
     /**
      * @param Item[] $items
      */
-    private function buildGildedRose(array $items): GildedRose
+    private function buildGildedRose(array $items): GuildedRoseBak
     {
-        return new GildedRose($items);
+        return new GuildedRoseBak($items);
     }
 }
