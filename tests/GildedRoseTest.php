@@ -9,6 +9,7 @@ use GildedRose\Item;
 use GildedRose\ItemStrategy\AgedBrieItemStrategy;
 use GildedRose\ItemStrategy\BackstagePassesItemStrategy;
 use GildedRose\ItemStrategy\ConjuredItemStrategy;
+use GildedRose\ItemStrategy\DefaultStrategy;
 use GildedRose\ItemStrategy\LegendaryItemStrategy;
 use PHPUnit\Framework\TestCase;
 
@@ -174,7 +175,10 @@ class GildedRoseTest extends TestCase
      */
     public function getSut(array $items): GildedRose
     {
-        $gildedRose = new GildedRose($items);
+        $gildedRose = new GildedRose(
+            $items,
+            new DefaultStrategy(),
+        );
         $gildedRose->addStrategies(
             new AgedBrieItemStrategy(),
             new BackstagePassesItemStrategy(),

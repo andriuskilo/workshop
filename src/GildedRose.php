@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GildedRose;
 
+use GildedRose\ItemStrategy\DefaultStrategy;
 use GildedRose\ItemStrategy\ItemStrategy;
 
 final class GildedRose
@@ -17,7 +18,8 @@ final class GildedRose
      * @param Item[] $items
      */
     public function __construct(
-        private array $items
+        private array $items,
+        private DefaultStrategy $defaultStrategy
     ) {
     }
 
@@ -32,9 +34,6 @@ final class GildedRose
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
-            /**
-             * Check if the new strategy-based flow supports the current Item
-             */
             foreach ($this->itemStrategies as $strategy) {
                 if ($strategy->supports($item)) {
                     $strategy->updateItem($item);
@@ -44,19 +43,9 @@ final class GildedRose
             }
 
             /**
-             * Else, let's go with the old logic:
+             * Use default strategy explicitly not to depend on configuration to ensure there is one
              */
-            if ($item->quality > 0) {
-                $item->quality = $item->quality - 1;
-            }
-
-            $item->sellIn = $item->sellIn - 1;
-
-            if ($item->sellIn < 0) {
-                if ($item->quality > 0) {
-                    $item->quality = $item->quality - 1;
-                }
-            }
+            $this->defaultStrategy->updateItem($item);
         }
     }
 }
