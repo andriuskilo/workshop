@@ -32,36 +32,23 @@ final class GildedRose
             }
 
             if ($item->name == self::BACKSTAGE_PASSES) {
+                $this->updateBackstagePassesQuality($item);
+                continue;
+            }
 
-                $item->quality++;
-                if ($item->name == self::BACKSTAGE_PASSES) {
-                    if ($item->sellIn < 11) {
-                        $item->quality++;
-                    }
-                    if ($item->sellIn < 6) {
-                        $item->quality++;
-                    }
-                }
-
-                $item->quality = min(50, $item->quality);
-
-            } elseif ($item->quality > 0) {
+            if ($item->quality > 0) {
                 $item->quality--;
             }
 
             $item->sellIn--;
 
-            if ($item->sellIn < 0) {
-                if ($item->name == self::BACKSTAGE_PASSES) {
-                    $item->quality = 0;
-                } elseif ($item->quality > 0) {
-                    $item->quality--;
-                }
+            if ($item->sellIn < 0 && $item->quality > 0) {
+                $item->quality--;
             }
         }
     }
 
-    private function updateAgedBrieQuality($item): void
+    private function updateAgedBrieQuality(Item $item): void
     {
         $item->quality++;
 
@@ -72,5 +59,24 @@ final class GildedRose
         }
 
         $item->quality = min(50, $item->quality);
+    }
+
+    private function updateBackstagePassesQuality(Item $item): void
+    {
+        $item->quality++;
+
+        if ($item->sellIn < 11) {
+            $item->quality++;
+        }
+        if ($item->sellIn < 6) {
+            $item->quality++;
+        }
+        $item->quality = min(50, $item->quality);
+
+        $item->sellIn--;
+
+        if ($item->sellIn < 0) {
+            $item->quality = 0;
+        }
     }
 }
